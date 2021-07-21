@@ -1,0 +1,25 @@
+accelerator:
+  name: rename-package-sample
+  displayName: Rename Java Package
+  iconUrl: https://raw.githubusercontent.com/simple-starters/icons/master/icon-tanzu-light.png
+  description: A demo project with custom java package name. Show how an accelerator can rename Java packages.
+  tags:
+  - accelerator
+  - openrewrite
+  options:
+    - name: pkgName
+      label: Package
+      description: The name of the package
+      dataType: string
+      defaultValue: com.user.choseit
+engine:
+  merge:
+  - exclude: [ '**/*.java', '.project', '.classpath' , '.settings/**', 'k8s-resource.yml' ]
+  - include: [ '**/*.java' ] 
+    chain:
+    - type: OpenRewriteRecipe
+      recipe: org.openrewrite.java.ChangePackage
+      options:
+        oldFullyQualifiedPackageName: "'com.renamethis'"
+        newFullyQualifiedPackageName: "#pkgName"
+        recursive: true

@@ -1,0 +1,11 @@
+# This should be kubectl apply-ed to define this accelerator in the cluster
+# It isn't part of the accelerator.
+apiVersion: accelerator.tanzu.vmware.com/v1alpha1
+kind: Accelerator
+metadata:
+  name: rename-package
+spec:
+  git:
+    url: https://github.com/sample-accelerators/rename-package.git
+    ref:
+      branch: main
