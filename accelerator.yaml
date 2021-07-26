@@ -6,15 +6,21 @@ accelerator:
   tags:
   - accelerator
   - openrewrite
+  - ytt
   options:
     - name: pkgName
       label: Package
       description: The name of the package
       dataType: string
       defaultValue: com.user.choseit
+    - name: putInYaml
+      label: Value to put in putInYaml
+      dataType: string
+      defaultValue: Hello YTT
+
 engine:
   merge:
-  - exclude: [ '**/*.java', '.project', '.classpath' , '.settings/**', 'k8s-resource.yml' ]
+  - exclude: [ '**/*.java', '.project', '.classpath' , '.settings/**', 'k8s-resource.yml', 'ytt/**' ]
   - include: [ '**/*.java' ] 
     chain:
     - type: OpenRewriteRecipe
@@ -23,3 +29,6 @@ engine:
         oldFullyQualifiedPackageName: "'com.renamethis'"
         newFullyQualifiedPackageName: "#pkgName"
         recursive: true
+  - include: [ 'ytt/**' ]
+    transformations:
+    - type: YTT
